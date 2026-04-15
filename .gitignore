@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# テスト成果物
+playwright-report/
+test-results/
+results/
+
+# スクレイパーデータ（大容量JSONL）
+scraper/data/*.jsonl
+
+# Docker / K8S
+*.tar
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 機密情報
+.env
+*.key
+*.pem

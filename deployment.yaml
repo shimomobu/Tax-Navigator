@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tax-navigator
+  namespace: mlops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tax-navigator
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: tax-navigator
+    spec:
+      containers:
+      - name: tax-navigator
+        image: localhost:32000/tax-navigator:v1
+        ports:
+        - containerPort: 8000
+        workingDir: /app
+        command: ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+        env:
+        - name: OLLAMA_URL
+          value: http://ollama-service.ollama.svc.cluster.local:11434
+        - name: QDRANT_URL
+          value: http://qdrant-service.mlops.svc.cluster.local:6333
+        - name: PHOENIX_COLLECTOR_ENDPOINT
+          value: http://phoenix-service.mlops.svc.cluster.local:4317
+        - name: PHOENIX_HTTP_URL
+          value: http://phoenix-service.mlops.svc.cluster.local:6006
+        - name: OLLAMA_MODEL
+          value: gemma4:e4b
+        - name: COLLECTION
+          value: tax_navigator
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "2000m"
+            memory: "2Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tax-navigator-service
+  namespace: mlops
+spec:
+  selector:
+    app: tax-navigator
+  ports:
+  - port: 8000
+    targetPort: 8000

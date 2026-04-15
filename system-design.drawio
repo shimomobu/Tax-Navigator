@@ -1,0 +1,200 @@
+<mxfile host="65bd71144e">
+    <diagram name="Tax Navigator - System Design" id="tax-navigator-system">
+        <mxGraphModel dx="1100" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="user" value="ブラウザ&#xa;(ユーザー)" style="shape=mxgraph.cisco.computers_and_peripherals.pc;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;align=center;fontSize=12;fontStyle=1;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="460" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="k8s-border" value="MicroK8S クラスター" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];shape=mxgraph.lean_mapping.electronic_info_flow_edge;html=1;whiteSpace=wrap;fillColor=none;strokeColor=#23445D;strokeWidth=3;dashed=1;fontSize=14;fontStyle=1;verticalAlign=top;spacingTop=6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="80" width="1160" height="880" as="geometry"/>
+                </mxCell>
+                <mxCell id="ns-ingress" value="namespace: ingress" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=2;verticalAlign=top;arcSize=4;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="280" y="360" width="240" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="nginx" value="NGINX Ingress&#xa;Controller" style="shape=mxgraph.kubernetes.icon;html=1;pointerEvents=1;dashed=0;fillColor=#316192;strokeColor=none;align=center;fontSize=12;fontStyle=1;fontColor=#ffffff;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="356" y="420" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ns-mlops" value="namespace: mlops" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;verticalAlign=top;arcSize=4;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="120" width="760" height="820" as="geometry"/>
+                </mxCell>
+                <mxCell id="pod-tax" value="tax-navigator Pod&#xa;(v3)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;arcSize=6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="160" width="320" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="fastapi" value="FastAPI&#xa;(port 8000)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#009933;strokeColor=#007a29;fontColor=#ffffff;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="200" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="api-ask" value="POST /ask" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="280" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="api-health" value="GET /health" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="320" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="static-html" value="Static HTML&#xa;(Chat UI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="200" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="crossencoder" value="CrossEncoder&#xa;(Reranker)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="280" width="120" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="svc-tax" value="tax-navigator-service&#xa;ClusterIP :8000" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="420" width="180" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="pod-qdrant" value="Qdrant Pod" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;arcSize=6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="520" width="200" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="qdrant-db" value="Vector DB&#xa;collection:&#xa;tax_navigator&#xa;(86,019 chunks)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="550" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="svc-qdrant" value="qdrant-service&#xa;ClusterIP :6333" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="680" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="pod-phoenix" value="Phoenix Pod&#xa;(Arize)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;arcSize=6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="760" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="phoenix-ui" value="LLM Tracing&#xa;:6006 / :4317 (OTEL)" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="790" width="170" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="ns-ollama" value="namespace: ollama" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=2;verticalAlign=top;arcSize=4;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="980" y="160" width="360" height="520" as="geometry"/>
+                </mxCell>
+                <mxCell id="pod-ollama" value="Ollama Pod" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;arcSize=6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="200" width="320" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="ollama-llm" value="LLM&#xa;gemma4:e4b" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ff8000;strokeColor=#cc6600;fontColor=#ffffff;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1020" y="240" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ollama-emb" value="Embeddings&#xa;nomic-embed-text&#xa;(768次元)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#ae4132;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1170" y="240" width="130" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="gpu-label" value="GPU 12GB&#xa;(NVIDIA)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1a2e;strokeColor=#00ff88;fontColor=#ffffff;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="1100" y="330" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="gpu-operator" value="GPU Operator&#xa;(NVIDIA)" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1020" y="400" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="svc-ollama" value="ollama-service&#xa;ClusterIP :11434" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1020" y="500" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="pod-webui" value="Open WebUI Pod&#xa;:8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;arcSize=6;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="580" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="scraper-group" value="スクレイパー（初回手動実行）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#0000ff;strokeWidth=2;dashed=1;fontSize=12;fontStyle=2;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="80" width="360" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="nta" value="国税庁&#xa;タックスアンサー&#xa;質疑応答事例&#xa;法令解釈通達" style="shape=mxgraph.network.server;html=1;dashed=0;outline=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="130" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="kfs" value="国税不服審判所&#xa;裁決事例" style="shape=mxgraph.network.server;html=1;dashed=0;outline=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="130" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="scraper-label" value="scraper/*.py → JSONL → ingest.py" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontStyle=2;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="240" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="data-stats" value="6,647件 → 86,019チャンク" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="280" width="180" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="rag-flow" value="RAGフロー" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;strokeWidth=1;dashed=1;fontSize=11;fontStyle=2;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="680" width="140" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow1" value="① 質問入力" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="710" width="110" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow2" value="② Embedding生成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="745" width="110" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow3" value="③ クエリ拡張 + Qdrant k=15" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="780" width="110" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow4" value="④ CrossEncoder再順位" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="815" width="110" height="25" as="geometry"/>
+                </mxCell>
+                <mxCell id="flow5" value="⑤ LLM推論 (gemma4)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="850" width="110" height="25" as="geometry"/>
+                </mxCell>
+                <!-- テスト基盤: K8Sクラスター下（y=990）に横並びで配置 -->
+                <mxCell id="test-group" value="テスト基盤（ローカル実行）" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#6600cc;strokeWidth=2;dashed=1;fontSize=12;fontStyle=2;verticalAlign=top;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="990" width="1320" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="test-unit" value="pytest&#xa;unit / integration&#xa;tests/test_rag.py&#xa;tests/test_api.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="100" y="1025" width="200" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="test-e2e" value="Playwright E2E&#xa;(mock /ask)&#xa;tests/e2e/tax_navigator.spec.js&#xa;15テストケース" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="1025" width="220" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="test-ragops" value="RAGOps Eval（ライブ評価）&#xa;golden dataset 20件&#xa;L4:判断精度 ≥70%  L1:KWカバレッジ&#xa;tests/eval/evaluate.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontColor=#000000;" vertex="1" parent="1">
+                    <mxGeometry x="610" y="1025" width="280" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-test-api" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6600cc;strokeWidth=1;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="test-ragops" target="svc-tax">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-test-label" value="TAX_NAVIGATOR_URL" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=9;fontColor=#6600cc;" connectable="0" vertex="1" parent="e-test-api">
+                    <mxGeometry x="-0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#6c8ebf;strokeWidth=2;" parent="1" source="user" target="nginx" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1-label" value="HTTP" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#000000;" parent="e1" vertex="1" connectable="0">
+                    <mxGeometry x="-0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="nginx" target="svc-tax" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#82b366;strokeWidth=1;dashed=1;" parent="1" source="svc-tax" target="fastapi" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=2;" parent="1" source="fastapi" target="svc-qdrant" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4-label" value="類似検索" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#000000;" parent="e4" vertex="1" connectable="0">
+                    <mxGeometry x="-0.2" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#b85450;strokeWidth=1;dashed=1;" parent="1" source="svc-qdrant" target="qdrant-db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#cc6600;strokeWidth=2;" parent="1" source="fastapi" target="svc-ollama" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6-label" value="LLM推論&#xa;Embedding" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#000000;" parent="e6" vertex="1" connectable="0">
+                    <mxGeometry x="0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#cc6600;strokeWidth=1;dashed=1;" parent="1" source="svc-ollama" target="ollama-llm" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7b" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#ae4132;strokeWidth=1;dashed=1;" parent="1" source="svc-ollama" target="ollama-emb" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#d79b00;strokeWidth=1;dashed=1;" parent="1" source="fastapi" target="phoenix-ui" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8-label" value="OTEL Trace" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#000000;" parent="e8" vertex="1" connectable="0">
+                    <mxGeometry x="-0.3" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0000ff;strokeWidth=2;dashed=1;exitX=1;exitY=0.5;" parent="1" source="data-stats" target="qdrant-db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9-label" value="初回投入" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#0000ff;" parent="e9" vertex="1" connectable="0">
+                    <mxGeometry x="-0.1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0000ff;strokeWidth=1;" parent="1" source="nta" target="data-stats" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#0000ff;strokeWidth=1;" parent="1" source="kfs" target="data-stats" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

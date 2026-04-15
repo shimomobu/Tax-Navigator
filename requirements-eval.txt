@@ -1,0 +1,19 @@
+# RAGOps 評価用依存関係
+# インストール: pip install -r requirements-eval.txt
+
+# HTTP クライアント（evaluate.py の call_ask で使用）
+requests>=2.31.0
+
+# Ragas 評価フレームワーク（L2/L3 指標、--ragas オプション使用時に必要）
+ragas>=0.1.0
+
+# Ragas が必要とする依存関係
+datasets>=2.14.0
+pandas>=2.0.0
+
+# Ragas の LLM ラッパー（Ollama 使用時）
+langchain-community>=0.0.20
+langchain>=0.1.0
+
+# レポート表示用（オプション）
+tabulate>=0.9.0

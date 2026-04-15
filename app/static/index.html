@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tax Navigator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:     #1a1a2e;
+      --paper:   #f5f0e8;
+      --accent:  #1a5276;
+      --green:   #1e8449;
+      --orange:  #d35400;
+      --red:     #c0392b;
+      --muted:   #8a8070;
+      --border:  #d4cfc4;
+      --surface: #fffdf9;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── ヘッダー ─── */
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 16px 28px;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      border-bottom: 3px solid var(--accent);
+      flex-shrink: 0;
+    }
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 3px;
+    }
+    header span {
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: 1px;
+    }
+
+    /* ─── メインレイアウト ─── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px;
+      gap: 20px;
+    }
+
+    /* ─── 入力エリア ─── */
+    .input-area {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .input-area label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      background: #fff;
+      line-height: 1.6;
+    }
+    textarea:focus { outline: 2px solid var(--accent); border-color: transparent; }
+
+    .input-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      align-items: center;
+    }
+    .hint {
+      font-size: 11px;
+      color: var(--muted);
+      flex: 1;
+    }
+    button {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    button:hover { opacity: 0.85; }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    #ask-btn {
+      background: var(--accent);
+      color: #fff;
+      letter-spacing: 1px;
+    }
+    #clear-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ─── 回答エリア ─── */
+    #result-area { display: flex; flex-direction: column; gap: 16px; }
+
+    .loading {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 24px;
+      display: none;
+    }
+    .loading.active { display: block; }
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── 回答カード ─── */
+    .answer-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .answer-card-header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .answer-body {
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    /* ─── 判断バッジ（回答テキスト中のキーワードに色付け） ─── */
+    .answer-body .badge-ok     { color: var(--green);  font-weight: 700; }
+    .answer-body .badge-ng     { color: var(--red);    font-weight: 700; }
+    .answer-body .badge-gray   { color: var(--orange); font-weight: 700; }
+
+    /* ─── Markdown風レンダリング ─── */
+    .answer-body h2 {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 16px 0 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+      color: var(--accent);
+    }
+    .answer-body h2:first-child { margin-top: 0; }
+    .answer-body table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 8px 0;
+    }
+    .answer-body th {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 6px 10px;
+      text-align: left;
+      font-weight: 500;
+    }
+    .answer-body td {
+      padding: 6px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .answer-body tr:last-child td { border-bottom: none; }
+    .answer-body tr:nth-child(even) td { background: #f9f6f0; }
+
+    /* ─── 出典カード ─── */
+    .sources-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .sources-card summary {
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--muted);
+      user-select: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+    }
+    .sources-card summary::after { content: "▼"; font-size: 10px; }
+    details[open] summary::after { content: "▲"; }
+    .sources-list {
+      padding: 0 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .source-item {
+      font-size: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .source-badge {
+      flex-shrink: 0;
+      background: var(--accent);
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+    .source-text a {
+      color: var(--accent);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .source-text a:hover { text-decoration: underline; }
+    .source-title { color: var(--ink); font-weight: 500; }
+
+    /* ─── エラー ─── */
+    .error-card {
+      background: #fdf0f0;
+      border: 1px solid #e74c3c;
+      border-radius: 6px;
+      padding: 14px 18px;
+      color: #c0392b;
+      font-size: 13px;
+    }
+
+    /* ─── フッター ─── */
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>TAX NAVIGATOR</h1>
+  <span>個人事業主 経費・税務 RAG / 青色申告・免税事業者</span>
+</header>
+
+<main>
+  <div class="input-area">
+    <label>質問を入力</label>
+    <textarea id="question" placeholder="例: カフェで打ち合わせをした際の飲食代は経費になりますか？&#10;例: 自宅の家賃の一部を地代家賃として計上できますか？&#10;例: スマートフォンの購入費用を経費にする場合の仕訳を教えてください。"></textarea>
+    <div class="input-actions">
+      <span class="hint">Ctrl+Enter で送信</span>
+      <button id="clear-btn" onclick="clearAll()">クリア</button>
+      <button id="ask-btn" onclick="ask()">質問する</button>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <span class="spinner"></span>税務知識ベースを検索中...
+  </div>
+
+  <div id="result-area"></div>
+</main>
+
+<footer>
+  本ツールの回答は参考情報です。最終判断は税理士等の専門家にご確認ください。
+</footer>
+
+<script>
+  const SOURCE_LABELS = {
+    nta_tax_answer: '国税庁タックスアンサー',
+    nta_qa_cases:   '国税庁質疑応答事例',
+    tribunal_cases: '国税不服審判所裁決事例',
+    nta_tsutatsu:   '国税庁法令解釈通達',
+  };
+
+  document.getElementById('question').addEventListener('keydown', e => {
+    if (e.ctrlKey && e.key === 'Enter') ask();
+  });
+
+  function clearAll() {
+    document.getElementById('question').value = '';
+    document.getElementById('result-area').innerHTML = '';
+    document.getElementById('loading').classList.remove('active');
+  }
+
+  function renderMarkdown(text) {
+    // 見出し
+    text = text.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+    // テーブル
+    text = renderTables(text);
+    // 判断キーワードに色付け
+    text = text.replace(/(経費として認められる)/g, '<span class="badge-ok">$1</span>');
+    text = text.replace(/(経費として認められない)/g, '<span class="badge-ng">$1</span>');
+    text = text.replace(/(グレーゾーン[^\s「]*)/g, '<span class="badge-gray">$1</span>');
+    return text;
+  }
+
+  function renderTables(text) {
+    const lines = text.split('\n');
+    const out = [];
+    let inTable = false;
+    let tableLines = [];
+
+    for (const line of lines) {
+      if (line.trim().startsWith('|')) {
+        inTable = true;
+        tableLines.push(line);
+      } else {
+        if (inTable) {
+          out.push(buildTable(tableLines));
+          tableLines = [];
+          inTable = false;
+        }
+        out.push(line);
+      }
+    }
+    if (inTable) out.push(buildTable(tableLines));
+    return out.join('\n');
+  }
+
+  function buildTable(lines) {
+    const rows = lines
+      .filter(l => !l.match(/^\|[-| ]+\|$/))
+      .map(l => l.split('|').filter((_, i, a) => i > 0 && i < a.length - 1).map(c => c.trim()));
+
+    if (rows.length === 0) return lines.join('\n');
+
+    let html = '<table>';
+    rows.forEach((cols, i) => {
+      html += '<tr>';
+      const tag = i === 0 ? 'th' : 'td';
+      cols.forEach(c => { html += `<${tag}>${c}</${tag}>`; });
+      html += '</tr>';
+    });
+    html += '</table>';
+    return html;
+  }
+
+  async function ask() {
+    const question = document.getElementById('question').value.trim();
+    if (!question) return;
+
+    const btn = document.getElementById('ask-btn');
+    const loading = document.getElementById('loading');
+    const resultArea = document.getElementById('result-area');
+
+    btn.disabled = true;
+    loading.classList.add('active');
+    resultArea.innerHTML = '';
+
+    try {
+      const res = await fetch('/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, k: 7, top_n: 4 }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(err.detail || res.statusText);
+      }
+
+      const data = await res.json();
+
+      // 回答カード
+      const answerCard = document.createElement('div');
+      answerCard.className = 'answer-card';
+      answerCard.innerHTML = `
+        <div class="answer-card-header">
+          <span>ANSWER</span>
+          <span>${data.reranked_chunks} 件の文書を参照</span>
+        </div>
+        <div class="answer-body">${renderMarkdown(data.answer)}</div>
+      `;
+      resultArea.appendChild(answerCard);
+
+      // 出典カード
+      if (data.sources && data.sources.length > 0) {
+        const details = document.createElement('details');
+        details.className = 'sources-card';
+        const summary = document.createElement('summary');
+        summary.textContent = `参照出典 (${data.sources.length} 件)`;
+        details.appendChild(summary);
+
+        const list = document.createElement('div');
+        list.className = 'sources-list';
+        data.sources.forEach(s => {
+          const item = document.createElement('div');
+          item.className = 'source-item';
+          const label = SOURCE_LABELS[s.source] || s.source;
+          const titleHtml = s.url
+            ? `<a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title || s.url)}</a>`
+            : `<span class="source-title">${escapeHtml(s.title)}</span>`;
+          item.innerHTML = `
+            <span class="source-badge">${escapeHtml(label)}</span>
+            <span class="source-text">${titleHtml}</span>
+          `;
+          list.appendChild(item);
+        });
+        details.appendChild(list);
+        resultArea.appendChild(details);
+      }
+
+    } catch (err) {
+      const card = document.createElement('div');
+      card.className = 'error-card';
+      card.textContent = `エラー: ${err.message}`;
+      resultArea.appendChild(card);
+    } finally {
+      btn.disabled = false;
+      loading.classList.remove('active');
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+</script>
+</body>
+</html>
