@@ -1,0 +1,6 @@
+[run]
+data_file = /tmp/tax-nav-coverage/.coverage
+source = app
+
+[report]
+show_missing = True
