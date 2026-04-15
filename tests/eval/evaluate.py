@@ -143,7 +143,7 @@ def call_ask(url: str, question: str, timeout: int = 120) -> tuple[dict, float]:
 def run_ragas(
     results: list[EvalResult],
     ollama_url: str = "http://localhost:11434",
-    ollama_model: str = "llama3",
+    ollama_model: str = "gemma4:e4b",
 ) -> None:
     """
     Ragas で L2(忠実性) / L3(回答関連性) を計算し、results を in-place 更新する。
@@ -300,7 +300,7 @@ def run_evaluation(
     api_url: str,
     use_ragas: bool = False,
     ollama_url: str = "http://localhost:11434",
-    ollama_model: str = "llama3",
+    ollama_model: str = "gemma4:e4b",
 ) -> list[EvalResult]:
     cases = load_dataset(dataset_path)
     results: list[EvalResult] = []
@@ -370,7 +370,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--ollama-model",
-        default="llama3",
+        default="gemma4:e4b",
         help="Ollama モデル名 (Ragas 評価用)",
     )
     parser.add_argument(
