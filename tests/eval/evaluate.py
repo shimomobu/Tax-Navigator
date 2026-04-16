@@ -94,16 +94,31 @@ JUDGMENT_PATTERNS = {
 
 
 def extract_judgment(answer: str) -> str:
-    """回答テキストから判断カテゴリを抽出する"""
-    # 「認められない」を先にチェック（「認められる」を部分一致で誤検出しないため）
+    """回答テキストから判断カテゴリを抽出する（## 判断セクションのみを対象）"""
+    # ## 判断セクションだけを抽出
+    judgment_section = ""
+    if "## 判断" in answer:
+        parts = answer.split("## 判断")
+        if len(parts) > 1:
+            # 次の##までを判断セクションとして取得
+            section = parts[1]
+            next_section = section.find("##")
+            if next_section > 0:
+                judgment_section = section[:next_section]
+            else:
+                judgment_section = section[:200]  # 最大200文字
+    else:
+        judgment_section = answer[:200]
+
+    # 「認められない」を先にチェック
     for pattern in JUDGMENT_PATTERNS["認められない"]:
-        if pattern in answer:
+        if pattern in judgment_section:
             return "認められない"
     for pattern in JUDGMENT_PATTERNS["グレーゾーン"]:
-        if pattern in answer:
+        if pattern in judgment_section:
             return "グレーゾーン"
     for pattern in JUDGMENT_PATTERNS["認められる"]:
-        if pattern in answer:
+        if pattern in judgment_section:
             return "認められる"
     return "不明"
 

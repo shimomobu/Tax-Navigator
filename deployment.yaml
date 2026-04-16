@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: tax-navigator
-        image: localhost:32000/tax-navigator:v6
+        image: localhost:32000/tax-navigator:v7
         ports:
         - containerPort: 8000
         workingDir: /app
@@ -32,7 +32,7 @@ spec:
         - name: PHOENIX_HTTP_URL
           value: http://phoenix-service.mlops.svc.cluster.local:6006
         - name: OLLAMA_MODEL
-          value: gemma4:e4b
+          value: gemma4:e4b-det
         - name: COLLECTION
           value: tax_navigator
         resources:
