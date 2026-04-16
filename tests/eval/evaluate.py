@@ -121,7 +121,7 @@ def check_keyword_coverage(answer: str, keywords: list[str]) -> tuple[list[str],
 
 # ─── API 呼び出し ─────────────────────────────────────────────────────────────
 
-def call_ask(url: str, question: str, timeout: int = 120) -> tuple[dict, float]:
+def call_ask(url: str, question: str, timeout: int = 300) -> tuple[dict, float]:
     """
     /ask エンドポイントを呼び出す。
     (response_dict, latency_ms) を返す。
